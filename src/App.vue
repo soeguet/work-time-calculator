@@ -14,7 +14,7 @@ function time(): string {
   if (isNaN(total)) {
     return '00:00'
   } else if (total < 0) {
-    return 'start ist after end!'
+    return 'start is after end!'
   }
 
   total = breakNeeded(total)
@@ -50,6 +50,11 @@ function breakNeeded(total: number): number {
     <div class="container">
       <dialog id="options">
         <h2>Options</h2>
+
+        <div id="settings">
+          <label for="checkbox">evaluate breaks: </label>
+          <input type="checkbox" id="checkbox" />
+        </div>
         <button onclick="options.close()">Close</button>
       </dialog>
       <div class="gear"></div>
@@ -134,20 +139,19 @@ function breakNeeded(total: number): number {
 }
 
 dialog {
-  border: none !important;
   border-radius: calc(5px * var(--ratio));
   box-shadow: 0 0 #0000, 0 0 #0000, 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   padding: 1.6rem;
   max-width: 400px;
   scale: 0;
-  transition: all 2.5s;
+  transition: all 0.5s;
 }
 
 dialog[open] {
   margin: auto;
   opacity: 1;
   scale: 1;
-  transition: all 2.5s;
+  transition: all 0.5s;
 }
 
 /* Included in the Chrome user agent styles */
@@ -158,6 +162,26 @@ dialog::backdrop {
   bottom: 0px;
   left: 0px;
   background: rgba(0, 0, 0, 0.7);
-  transition: all 2.5s;
+  transition: all 0.5s;
+}
+
+#options {
+  display: grid;
+  gap: 10px;
+  background-color: var(--color-background-mute);
+  color: var(--color-text);
+  font-size: 25px;
+  transition: transform 0.4s;
+  /* Animation */
+  background-color: var(--color-background-mute);
+}
+
+#options label {
+  font-size: 15px;
+}
+
+#settings {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
