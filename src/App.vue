@@ -6,6 +6,8 @@ const end: Ref<string> = ref('')
 let breakThirty: boolean = false
 let breakFifteen: boolean = false
 const breakOption: Ref<boolean> = ref(true)
+const customBreak: Ref<boolean> = ref(false)
+const breakTime: Ref<number> = ref(0)
 
 function time(): string {
   let startTime: Date = new Date(start.value)
@@ -18,7 +20,7 @@ function time(): string {
     return 'start is after end!'
   }
 
-  if (breakOption.value){
+  if (breakOption.value) {
     total = breakNeeded(total)
   } else {
     breakFifteen = false
@@ -58,8 +60,12 @@ function breakNeeded(total: number): number {
         <h2>Options</h2>
 
         <div id="settings">
-          <label for="checkbox">evaluate breaks: </label>
-          <input type="checkbox" id="checkbox" v-model="breakOption" />
+          <label for="checkboxBreak">evaluate breaks: </label>
+          <input type="checkbox" id="checkboxBreak" v-model="breakOption" />
+        </div>
+        <div id="settings">
+          <label for="checkboxCustom">custom break time:</label>
+          <input type="checkbox" id="checkboxCustom" v-model="customBreak" />
         </div>
         <button onclick="options.close()">Close</button>
       </dialog>
@@ -75,6 +81,11 @@ function breakNeeded(total: number): number {
       <div class="inner">
         <label for="end">End:</label>
         <input type="datetime-local" v-model="end" id="end" class="time" />
+      </div>
+
+      <div v-if="customBreak" class="inner break">
+        <label for="breakTime">Custom break time:</label>
+        <input type="number" v-model="breakTime" id="breakTime" />
       </div>
 
       <div class="inner total">
@@ -148,6 +159,8 @@ dialog {
   border-radius: calc(5px * var(--ratio));
   box-shadow: 0 0 #0000, 0 0 #0000, 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   padding: 1.6rem;
+  width: 30%;
+  min-width: 250px;
   max-width: 400px;
   scale: 0;
   transition: all 0.5s;
