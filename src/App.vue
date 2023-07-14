@@ -5,7 +5,9 @@ const start: Ref<string> = ref('')
 const end: Ref<string> = ref('')
 let breakThirty: boolean = false
 let breakFifteen: boolean = false
+// break - yes or no
 const breakOption: Ref<boolean> = ref(true)
+// customize how much break is being taken
 const customBreak: Ref<boolean> = ref(false)
 const breakTime: Ref<number> = ref(0)
 
@@ -34,6 +36,12 @@ function time(): string {
 }
 
 function breakNeeded(total: number): number {
+
+  // use custom break property
+  if(customBreak.value){
+    return total - (breakTime.value * 60 * 1_000)
+  }
+
   //if work for over 9 hours
   if (total > 32400000) {
     breakFifteen = true
@@ -94,8 +102,8 @@ function breakNeeded(total: number): number {
           {{ time() }}
         </div>
         <div id="explanation inner">
-          <p v-if="breakFifteen">Work time exceeds 9 hours. 45 Minute break subtracted!</p>
-          <p v-else-if="breakThirty">Work time exceeds 6 hours. 30 Minute break subtracted!</p>
+          <p v-if="breakFifteen && !customBreak">Work time exceeds 9 hours. 45 Minute break subtracted!</p>
+          <p v-else-if="breakThirty && !customBreak">Work time exceeds 6 hours. 30 Minute break subtracted!</p>
         </div>
       </div>
     </div>
@@ -122,8 +130,7 @@ function breakNeeded(total: number): number {
   width: 600px;
   height: 400px;
   border-radius: 50px;
-  padding-block: 70px;
-  padding-inline: 50px;
+  padding: 2rem 4rem;
   background-color: var(--color-background-mute);
 }
 
@@ -147,7 +154,6 @@ function breakNeeded(total: number): number {
   color: var(--color-text);
   font-size: 25px;
   transition: transform 0.4s;
-  /* Animation */
   background-color: var(--color-background-mute);
 }
 
@@ -173,7 +179,6 @@ dialog[open] {
   transition: all 0.5s;
 }
 
-/* Included in the Chrome user agent styles */
 dialog::backdrop {
   position: fixed;
   top: 0px;
@@ -191,7 +196,6 @@ dialog::backdrop {
   color: var(--color-text);
   font-size: 25px;
   transition: transform 0.4s;
-  /* Animation */
   background-color: var(--color-background-mute);
 }
 
