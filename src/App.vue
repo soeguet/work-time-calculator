@@ -5,6 +5,7 @@ const start: Ref<string> = ref('')
 const end: Ref<string> = ref('')
 let breakThirty: boolean = false
 let breakFifteen: boolean = false
+const breakOption: Ref<boolean> = ref(true)
 
 function time(): string {
   let startTime: Date = new Date(start.value)
@@ -17,7 +18,12 @@ function time(): string {
     return 'start is after end!'
   }
 
-  total = breakNeeded(total)
+  if (breakOption.value){
+    total = breakNeeded(total)
+  } else {
+    breakFifteen = false
+    breakThirty = false
+  }
 
   let hours: number = Math.floor(total / 1000 / 60 / 60)
   let minutes: number = (total / 1000 / 60) % 60
@@ -53,7 +59,7 @@ function breakNeeded(total: number): number {
 
         <div id="settings">
           <label for="checkbox">evaluate breaks: </label>
-          <input type="checkbox" id="checkbox" />
+          <input type="checkbox" id="checkbox" v-model="breakOption" />
         </div>
         <button onclick="options.close()">Close</button>
       </dialog>
